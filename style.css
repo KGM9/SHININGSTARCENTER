@@ -2535,3 +2535,51 @@ html, body {
         width: 100%;
     }
 }
+
+
+
+
+/* Boutons Onglets Switcher */
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: 2px solid #0d3b66;
+    background: #ffffff;
+    color: #0d3b66;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: #0d3b66;
+    color: #ffffff;
+}
+
+/* Affichage dynamique des formulaires */
+.registration-form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.registration-form.active-form {
+    display: flex;
+}
+
+/* Couleurs spécifiques des boutons d'envoi */
+.btn-center {
+    background-color: #25d366;
+}
+
+.btn-school {
+    background-color: #25d366;
+}
