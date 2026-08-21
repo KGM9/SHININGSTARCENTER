@@ -238,7 +238,7 @@ html, body {
 .main-content {
     width: 100%;
     flex-grow: 1;
-    background-color: #e9f1f8;
+    background-color: #b4d5f1;
     display: flex;
     flex-direction: column;
     align-items: center;
