@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - Shining Star Center</title>
+    <title>Inscription - Shining Star</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
         <header class="top-header">
             <a href="index.html" class="back-link">&larr; Accueil</a>
             <img src="shiningv.png" alt="Logo Gauche" class="header-logo">
-            <h1 class="header-title">SHINING STAR CENTER</h1>
+            <h1 class="header-title">SHINING STAR</h1>
             <img src="shiningv.png" alt="Logo Droite" class="header-logo">
         </header>
 
@@ -24,10 +24,17 @@
             <section class="form-card">
                 <div class="form-header">
                     <h2>Formulaire d'Inscription</h2>
-                    <p>Remplissez ce formulaire pour valider votre demande. Vous serez directement redirigé(e) vers le service d'inscription WhatsApp du centre.</p>
+                    <p>Choisissez l'établissement souhaité puis remplissez le formulaire pour valider votre demande sur WhatsApp.</p>
                 </div>
 
-                <form id="registrationForm" class="registration-form">
+                <!-- SELECTEUR D'ONGLETS -->
+                <div class="tab-buttons">
+                    <button type="button" class="tab-btn active" id="tab-center-btn" onclick="switchTab('center')">Shining Star Center</button>
+                    <button type="button" class="tab-btn" id="tab-school-btn" onclick="switchTab('school')">Shining Star School</button>
+                </div>
+
+                <!-- 1. FORMULAIRE SHINING STAR CENTER -->
+                <form id="centerForm" class="registration-form active-form">
 
                     <!-- INFORMATIONS PERSONNELLES -->
                     <div class="form-group-row">
@@ -61,10 +68,10 @@
                         </div>
                     </div>
 
-                    <!-- CHOIX DE LA FORMATION OU CLASSE -->
+                    <!-- CHOIX DE LA FORMATION -->
                     <div class="form-group">
                         <label for="category">Domaine ou Type d'encadrement *</label>
-                        <select id="category" required onchange="updateSubOptions()">
+                        <select id="category" required onchange="updateCenterOptions()">
                             <option value="" disabled selected>Choisissez le domaine d'inscription</option>
                             <option value="Formations Professionnelles en Métiers">Formations Professionnelles en Métiers</option>
                             <option value="Informatique & Bureautique">Informatique & Bureautique</option>
@@ -79,7 +86,6 @@
                         </select>
                     </div>
 
-                    <!-- CHOIX PRÉCIS DYNAMIQUE -->
                     <div class="form-group">
                         <label for="specificChoice">Filière, Classe ou Matière spécifique *</label>
                         <select id="specificChoice" required>
@@ -102,22 +108,89 @@
                         <textarea id="notes" rows="3" placeholder="Avez-vous des besoins spécifiques ou des questions ?"></textarea>
                     </div>
 
-                    <!-- BOUTON D'ENVOI WHATSAPP -->
-                    <button type="submit" class="btn-whatsapp-submit">
-                        <span>📲 Valider l'inscription sur WhatsApp</span>
+                    <button type="submit" class="btn-whatsapp-submit btn-center">
+                        <span>📲 S'inscrire au Centre via WhatsApp</span>
                     </button>
 
                 </form>
+
+                <!-- 2. FORMULAIRE SHINING STAR SCHOOL -->
+                <form id="schoolForm" class="registration-form">
+
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="schoolStudentName">Nom & Prénom de l'élève *</label>
+                            <input type="text" id="schoolStudentName" placeholder="Ex: Paul Malonga" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="schoolParentPhone">Téléphone du Parent / Tuteur *</label>
+                            <input type="tel" id="schoolParentPhone" placeholder="Ex: +242 05 616 41 62" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolCycle">Cycle d'études *</label>
+                        <select id="schoolCycle" required onchange="updateSchoolClasses()">
+                            <option value="" disabled selected>Sélectionnez le cycle</option>
+                            <option value="Primaire">Primaire</option>
+                            <option value="Collège">Collège</option>
+                            <option value="Lycée">Lycée</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolClass">Classe souhaitée *</label>
+                        <select id="schoolClass" required>
+                            <option value="" disabled selected>Choisissez d'abord un cycle ci-dessus</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schoolNotes">Message ou précision complémentaire</label>
+                        <textarea id="schoolNotes" rows="3" placeholder="Informations complémentaires sur l'élève..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-whatsapp-submit btn-school">
+                        <span>📲 S'inscrire à l'École via WhatsApp</span>
+                    </button>
+
+                </form>
+
             </section>
 
         </main>
 
     </div>
 
-    <!-- SCRIPT DE GESTION WHATSAPP ET SÉLECTION DYNAMIQUE -->
+    <!-- SCRIPT DE GESTION DES ONGLETS, SÉLECTION DYNAMIQUE ET REDIRECTION WHATSAPP -->
     <script>
-        // Mettre à jour la deuxième liste déroulante en fonction de la catégorie choisie
-        function updateSubOptions() {
+        // Numéros WhatsApp officiels
+        const WHATSAPP_CENTER = "242069855159";
+        const WHATSAPP_SCHOOL = "242056164162";
+
+        // Gestion du changement d'onglets
+        function switchTab(type) {
+            const btnCenter = document.getElementById('tab-center-btn');
+            const btnSchool = document.getElementById('tab-school-btn');
+            const formCenter = document.getElementById('centerForm');
+            const formSchool = document.getElementById('schoolForm');
+
+            if (type === 'center') {
+                btnCenter.classList.add('active');
+                btnSchool.classList.remove('active');
+                formCenter.classList.add('active-form');
+                formSchool.classList.remove('active-form');
+            } else {
+                btnSchool.classList.add('active');
+                btnCenter.classList.remove('active');
+                formSchool.classList.add('active-form');
+                formCenter.classList.remove('active-form');
+            }
+        }
+
+        // Mettre à jour les options dynamiques du Center
+        function updateCenterOptions() {
             const category = document.getElementById('category').value;
             const subSelect = document.getElementById('specificChoice');
             subSelect.innerHTML = '<option value="" disabled selected>Sélectionnez votre option</option>';
@@ -174,8 +247,31 @@
             });
         }
 
-        // Redirection vers WhatsApp lors de la soumission
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        // Mettre à jour les classes dynamiques de l'École
+        function updateSchoolClasses() {
+            const cycle = document.getElementById('schoolCycle').value;
+            const classSelect = document.getElementById('schoolClass');
+            classSelect.innerHTML = '<option value="" disabled selected>Sélectionnez la classe</option>';
+
+            let classes = [];
+            if (cycle === 'Primaire') {
+                classes = ['CP', 'CE1', 'CE2', 'CM1', 'CM2'];
+            } else if (cycle === 'Collège') {
+                classes = ['6ème', '5ème', '4ème', '3ème'];
+            } else if (cycle === 'Lycée') {
+                classes = ['Seconde', 'Première', 'Terminale'];
+            }
+
+            classes.forEach(cls => {
+                const el = document.createElement('option');
+                el.value = cls;
+                el.textContent = cls;
+                classSelect.appendChild(el);
+            });
+        }
+
+        // Soumission Formulaire Centre (+242 06 985 51 59)
+        document.getElementById('centerForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const fullName = document.getElementById('fullName').value.trim();
@@ -187,23 +283,37 @@
             const schedule = document.getElementById('schedule').value;
             const notes = document.getElementById('notes').value.trim() || 'Aucune remarque';
 
-            const whatsappNumber = "242069855159";
-
-            // Construction du message WhatsApp propre et mis en forme
-            const message = `*DEMANDE D'INSCRIPTION - SHINING STAR CENTER*%0A%0A` +
-                `👤 *Apprenant :* ${fullName}%0A` +
-                `📱 *Téléphone :* ${studentPhone}%0A` +
-                `🎓 *Statut :* ${status}%0A` +
-                `👨‍👩‍👦 *Contact Parent/Tuteur :* ${parentPhone}%0A%0A` +
-                `📚 *Domaine :* ${category}%0A` +
-                `🎯 *Option / Classe :* ${specificChoice}%0A` +
-                `⏰ *Créneau souhaité :* ${schedule}%0A` +
+            const message = `*DEMANDE D'INSCRIPTION - SHINING STAR CENTER*\n\n` +
+                `👤 *Apprenant :* ${fullName}\n` +
+                `📱 *Téléphone :* ${studentPhone}\n` +
+                `🎓 *Statut :* ${status}\n` +
+                `👨‍👩‍👦 *Contact Parent/Tuteur :* ${parentPhone}\n\n` +
+                `📚 *Domaine :* ${category}\n` +
+                `🎯 *Option / Classe :* ${specificChoice}\n` +
+                `⏰ *Créneau souhaité :* ${schedule}\n` +
                 `💬 *Note/Précision :* ${notes}`;
 
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+            window.open(`https://wa.me/${WHATSAPP_CENTER}?text=${encodeURIComponent(message)}`, '_blank');
+        });
 
-            // Redirection immédiate
-            window.open(whatsappUrl, '_blank');
+        // Soumission Formulaire École (+242 05 616 41 62)
+        document.getElementById('schoolForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const studentName = document.getElementById('schoolStudentName').value.trim();
+            const parentPhone = document.getElementById('schoolParentPhone').value.trim();
+            const cycle = document.getElementById('schoolCycle').value;
+            const schoolClass = document.getElementById('schoolClass').value;
+            const notes = document.getElementById('schoolNotes').value.trim() || 'Aucune remarque';
+
+            const message = `*DEMANDE D'INSCRIPTION - SHINING STAR SCHOOL*\n\n` +
+                `🎓 *Élève :* ${studentName}\n` +
+                `📞 *Téléphone Parent/Tuteur :* ${parentPhone}\n` +
+                `🏫 *Cycle d'études :* ${cycle}\n` +
+                `📖 *Classe sollicitée :* ${schoolClass}\n` +
+                `💬 *Note/Précision :* ${notes}`;
+
+            window.open(`https://wa.me/${WHATSAPP_SCHOOL}?text=${encodeURIComponent(message)}`, '_blank');
         });
     </script>
 
